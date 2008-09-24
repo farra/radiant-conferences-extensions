@@ -1,0 +1,114 @@
+Index: frontends/default/javascripts/active_scaffold.js
+===================================================================
+--- frontends/default/javascripts/active_scaffold.js	(revision 739)
++++ frontends/default/javascripts/active_scaffold.js	(working copy)
+@@ -194,7 +194,7 @@
+     this.loading_indicator = loading_indicator;
+     this.hide_target = false;
+     this.position = this.tag.getAttribute('position');
+-		this.page_link = this.tag.getAttribute('page_link');
++                this.page_link = this.tag.getAttribute('page_link');
+ 
+     this.onclick = this.tag.onclick;
+     this.tag.onclick = null;
+@@ -218,37 +218,38 @@
+     }
+   },
+ 
+-	open_action: function() {
+-		if (this.position) this.disable();
++        open_action: function() {
++                if (this.position) this.disable();
+ 
+-		if (this.page_link) {
+-			window.location = this.url;
+-		} else {
+-			if (this.loading_indicator) this.loading_indicator.style.visibility = 'visible';
+-	    new Ajax.Request(this.url, {
+-	      asynchronous: true,
+-	      evalScripts: true,
++                if (this.page_link) {
++                        window.location = this.url;
++                } else {
++                        if (this.loading_indicator) this.loading_indicator.style.visibility = 'visible';
++            new Ajax.Request(this.url, {
++              asynchronous: true,
++              evalScripts: true,
+ 
+-	      onSuccess: function(request) {
+-	        if (this.position) {
+-	          this.insert(request.responseText);
+-	          if (this.hide_target) this.target.hide();
+-	        } else {
+-	          request.evalResponse();
+-	        }
+-	      }.bind(this),
++              onSuccess: function(request) {
++                if (this.position) {
++                  this.insert(request.responseText);
++                  if (this.hide_target) this.target.hide();
++                } else {
++                  request.evalResponse();
++                }
++              }.bind(this),
+ 
+-	      onFailure: function(request) {
+-	        ActiveScaffold.report_500_response(this.scaffold_id());
+-	        if (this.position) this.enable()
+-	      }.bind(this),
++              onFailure: function(request) {
++                ActiveScaffold.report_500_response(this.scaffold_id());
++                if (this.position) this.enable()
++              }.bind(this),
+ 
+-	      onComplete: function(request) {
+-	        if (this.loading_indicator) this.loading_indicator.style.visibility = 'hidden';
+-	      }.bind(this)
+-			});
+-		}
+-	},
++              onComplete: function(request) {
++                if (this.loading_indicator) this.loading_indicator.style.visibility = 'hidden';
++                init_tinyMCE();
++              }.bind(this)
++                        });
++                }
++        },
+ 
+   insert: function(content) {
+     throw 'unimplemented'
+Index: frontends/default/views/_update_form.rhtml
+===================================================================
+--- frontends/default/views/_update_form.rhtml	(revision 739)
++++ frontends/default/views/_update_form.rhtml	(working copy)
+@@ -3,11 +3,13 @@
+ if request.xhr?
+   if active_scaffold_config.update.multipart?  # file_uploads
+     form_remote_upload_tag url_options.merge({:iframe => true}),
++                           :before => "update_from_tinyMCE(this);",
+                            :id => element_form_id(:action => :update),
+                            :class => 'update',
+                            :method => :put
+   else
+     form_remote_tag :url => url_options,
++                    :before => "update_from_tinyMCE(this);",
+                     :after => "$('#{loading_indicator_id(:action => :update, :id => params[:id])}').style.visibility = 'visible'; Form.disable('#{element_form_id(:action => :update)}');",
+                     :complete => "$('#{loading_indicator_id(:action => :update, :id => params[:id])}').style.visibility = 'hidden'; Form.enable('#{element_form_id(:action => :update)}');",
+                     :failure => "ActiveScaffold.report_500_response('#{active_scaffold_id}')",
+Index: frontends/default/views/_create_form.rhtml
+===================================================================
+--- frontends/default/views/_create_form.rhtml	(revision 739)
++++ frontends/default/views/_create_form.rhtml	(working copy)
+@@ -3,10 +3,12 @@
+ if request.xhr?
+   if active_scaffold_config.create.multipart? # file_uploads
+     form_remote_upload_tag url_options.merge({:iframe => true}),
++                           :before => "update_from_tinyMCE(this);",
+                            :id => element_form_id(:action => :create),
+                            :class => 'create'
+   else
+     form_remote_tag :url => url_options,
++                    :before => "update_from_tinyMCE(this);",
+                     :after => "$('#{loading_indicator_id(:action => :create, :id => params[:id])}').style.visibility = 'visible'; Form.disable('#{element_form_id(:action => :create)}');",
+                     :complete => "$('#{loading_indicator_id(:action => :create, :id => params[:id])}').style.visibility = 'hidden'; Form.enable('#{element_form_id(:action => :create)}');",
+                     :failure => "ActiveScaffold.report_500_response('#{active_scaffold_id}')",

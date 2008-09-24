@@ -1,0 +1,25 @@
+<div class="form-area">
+ <% form_for(@submission, :url => {:action => action}, :html => {:multipart => true})  do |f| %>
+   <%= render :partial => 'presentation', :object => @submission.presentation %>
+
+
+  <div id="tab-control">
+  <div id="tabs" class="tab"> 
+   <div id="tab-toolbar"><strong><em>Special Needs/Equipment, Availability, etc.</em></strong></div>  
+   <label class="tab here">Additional Comments</label>
+  </div></div>
+
+  <div id="pages" class="pages">
+   <div class="page"><div class="part">
+       <div><%= f.text_area :comments, :class => 'textarea', :style => 'width:100%;' %></div>
+   </div></div>
+  </div>
+
+  <div>
+   <br/><br/>
+   <%= f.hidden_field :conference_id %>
+   <%= f.hidden_field :id %>
+   <%= f.submit "Submit Presentation" %> &nbsp; &nbsp; <%= link_to "Cancel", :action => 'index' %>
+  </div>
+ <% end %>
+</div>

@@ -1,0 +1,47 @@
+<% new_or_existing = presentation.new_record? ? 'new' : 'existing' %> 
+<% prefix = "submission[#{new_or_existing}_presentation_attributes][]" %> 
+<% fields_for prefix, presentation do | form | -%>
+
+  <p class="title">
+   <label>Presentation Name</label>
+   <%= form.text_field :name, :class => 'textbox' %>
+  </p>
+  <p>&nbsp;</p>
+
+  <div id="tab-control">
+  <div id="tabs" class="tab"> 
+   <div id="tab-toolbar"><strong><em>250 Words, Plain Text Only</em></strong></div>  
+   <label class="tab here">Abstract</label>
+  </div></div>
+
+  <div id="pages" class="pages">
+   <div class="page"><div class="part">
+
+       <div><%= form.text_area :description, :class => 'textarea', :style => 'width:100%;' %></div>
+   </div></div>
+  </div>
+
+  <p>&nbsp;</p>
+
+ <table style="cellspacing:10px;">
+  <tr>
+   <td><label>Type</label></td>
+   <td><%= form.select :type_id, PresentationType.find(:all).collect {|p| [ p.name, p.id ] } %></td>
+  </tr>
+  <tr>
+   <td><label>Duration</label></td>
+   <td><%= form.select :duration, [['60 minutes',60],['3 hours',180],['6 hours',180],['12 hours',180]] %></td>
+  </tr>
+  <%  unless presentation.new_record?  %>
+  <tr>
+   <td><label>Slides</label></td>
+   <td><%= file_column_field "submission[#{new_or_existing}_presentation_attributes][#{presentation.new_record? ? '' : presentation.id}]", "materials" %>  <em>(Optional)</em></td>
+  </tr> 
+  <% end %> 
+ </table>
+
+  <p>&nbsp;</p>
+
+ <%= form.hidden_field :id %>
+ <%= form.hidden_field :presenter_id %>
+<% end -%>

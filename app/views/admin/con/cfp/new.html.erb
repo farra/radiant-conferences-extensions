@@ -1,0 +1,19 @@
+<% if @presentations.size > 0 %>
+<h1>Previous Submissions</h1>
+<div class="form-area">
+<p>
+You may resubmit a previous presentation to the conference.
+</p>
+<% form_for :submission, :url => {:action => 'create'} do |f| %>
+ <%= f.error_messages %>
+ <%= f.select "presentation_id" ,@presentations.collect {|p| [ p.name, p.id ] } %>
+ <%= f.hidden_field :conference_id %><br/><br/>
+ <%= f.submit "Submit presentation"%>
+<% end %>
+</div>
+<% end %>
+<br/><br/>
+
+<h1>New Submission</h1>
+<%= render :partial => 'submission', :locals => {:action => 'create'} %>
+

@@ -1,0 +1,34 @@
+= Conferences
+
+Simple conference management system for Radiant CMS 0.6.9.
+
+This extension was specifically designed for ApacheCon and may still
+contain several ApacheCon specific features.
+
+== Basic model organization
+
+ A Conference has one Venue with one or more Locations and one or more
+ Tracks associated with a Location.  Users create Presentations which
+ are submitted as Submissions to a Conference.  Submissions can then
+ be approved and scheduled, becoming Scheduled Sessions associated
+ with a Track in the Conference.  Activities are scheduled events
+ associated with a Conference (and optionally a Track) that may have
+ no associated User (such as a lunch or break).  Finally,
+ Organizations can become Sponsors of a Conference.
+
+== Requirements
+
+The following other extensions or plugins should also be installed in
+Radiant:
+
+- radiant-members-extension (radiant extension)
+- tinymce_filter (radiant extension)
+- active_scaffold  (rails plugin)
+- file_column (rails plugin)
+- tzinfo_timezone (rails plugin)
+
+== To Do
+
+- The current set of migrations need refactored to work for a clean install
+- RSpec tests need written
+- Replace ActiveScaffold with custom, better designed forms

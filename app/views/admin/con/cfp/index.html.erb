@@ -1,0 +1,42 @@
+
+ <h1>Conference Presentation Submissions</h1>
+
+<% @submissions_per_conference.each do | c | %>
+<%
+   conference = c[0]
+   submissions = c[1]
+%>
+
+ <h3><%= conference.name %> [<%= conference.start_date.to_formatted_s(:rfc822) %>]</h3>
+   <table class='index'>
+    <thead>
+     <th>Submission Name</th>
+     <th>Accepted</th>
+     <th>Scheduled</th>
+    </thead>
+   <% submissions.each do |submission| %>
+
+     <tr class='level-0 no-children node'>
+       <td class='page'><span class='title'>
+        <%= link_to submission.presentation.name, :action => 'edit', :id => submission.id %>
+       </span></td>
+       <td><%= submission.accepted ? 'Yes' : 'No' %></td>
+       <td>
+         <% submission.scheduled_sessions.each do | ss | %>
+            <%= ss.track.date.to_formatted_s(:short) %> <%= ss.start_time_local.to_formatted_s(:time) %>
+         <% end %>
+       </td>
+      </tr>
+
+   <% end %>
+   <% if conference.cfp_open %>
+     <tr class='level-0 no-children node'>
+      <Td class='page'><span class='title'>
+          <%= link_to "Submit new presentation", :action => 'new', :cid => conference.id %>
+      </span></td>
+      <td></td><td></td>
+     </tr>
+   <% end %>
+   </table>
+
+<% end  %>

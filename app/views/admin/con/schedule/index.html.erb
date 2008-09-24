@@ -1,0 +1,32 @@
+
+<h2>Schedule Management</h2>
+
+<table class="index">
+  <thead>
+    <tr>
+     <th>Manage</th>
+     <th>Description</th>
+    </tr>
+  </thead>
+
+  <tr class="level-0 no-children node">
+   <td class="page"><%= link_to "Tracks", :controller => 'admin/con/tracks', :con_id => @current_conference.id %></td>
+   <td class="">Define conference tracks.  Tracks have a date and a location at the venue.</td>
+  </tr>
+
+
+  <tr class="level-0 no-children node">
+   <td class="page"><%= link_to "Submitted Presentations", :controller => 'admin/con/submissions', :con_id => @current_conference.id %></td>
+   <td class="">Review all presentation submissions for this conference.</td>
+  </tr>
+
+  <tr class="level-0 no-children node">
+   <td class="page"><%= link_to "Scheduled Sessions", :controller => 'admin/con/scheduled_sessions', :con_id => @current_conference.id %></td>
+   <td class="">Manage the scheduled conference sessions.</td>
+  </tr>
+
+</table>
+
+
+
+

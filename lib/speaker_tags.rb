@@ -25,7 +25,7 @@ module SpeakerTags
     output
   end
 
-  [:name, :url, :bio, :id].each do |column|
+  [:name, :url, :notes, :id].each do |column|
     desc %{  Renders the '#{column}' attribute of the current speaker.}
     tag "speakers:each:#{column}" do |tag|
       tag.locals.speaker[column]

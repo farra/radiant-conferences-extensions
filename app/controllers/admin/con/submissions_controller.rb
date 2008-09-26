@@ -2,8 +2,8 @@ class Admin::Con::SubmissionsController < Admin::Con::CurrentConferenceControlle
 
   active_scaffold :submissions do | config |
     config.list.columns = [:presentation, :presenter, :scheduled_sessions, :accepted]
-    config.create.columns = [:presentation, :accepted, :votes, :score, :panel_members, :conference]
-    config.update.columns = [:presentation, :accepted, :votes, :score, :panel_members, :scheduled_sessions, :conference]
+    config.create.columns = [:presentation, :accepted, :votes, :score, :panel_members, :conference]    
+    config.update.columns = [:presentation, :scheduled_sessions, :panel_members, :accepted, :votes, :score]
     config.show.columns = [:presentation, :accepted, :votes, :score, :panel_members, :scheduled_sessions, :conference]
     config.subform.columns = [:presentation, :conference]
 

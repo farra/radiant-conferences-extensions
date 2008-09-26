@@ -73,7 +73,6 @@ class Admin::Con::CfpController < ApplicationController
   
     respond_to do |format|
       if @submission.update_attributes(params[:submission])
-        @submission.presentation.save
         flash[:notice] = 'Presentation was successfully updated.'
         format.html { redirect_to :action => :index }
         format.xml  { head :ok }

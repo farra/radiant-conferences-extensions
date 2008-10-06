@@ -7,17 +7,12 @@ module Con
 
     module AddActsAsCacheClearing
       def acts_as_cache_clearing
-        class_eval <<-END
-
-           after_save :clear_cache
-
-           def clear_cache
-              cache = ResponseCache.new
-              cache.clear
-           end
-        END
+        class_eval do
+          after_save do
+            ResponseCache.instance.clear
+          end
+        end
       end
     end
-
   end
 end

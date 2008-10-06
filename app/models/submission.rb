@@ -7,6 +7,7 @@ class Submission < ActiveRecord::Base
   has_many   :scheduled_sessions
   has_many   :panel_members
 
+  after_create :send_notification
 #  do we want to check if they've already submitted a presentation to a conference?
 #  validates_uniqueness_of :presentation, :scope => [:conference_id]
   
@@ -32,6 +33,12 @@ class Submission < ActiveRecord::Base
     params = presentation_attributes[self.presentation.id.to_s]
     self.presentation.update_attributes(params)
     self.presentation.save
+  end
+
+  def send_notification
+    if conference && !conference.submission_notification_email.blank?
+      SubmissionNotifier.deliver_notification(:submission => self, :to => conference.submission_notification_email)
+    end
   end
 
 end

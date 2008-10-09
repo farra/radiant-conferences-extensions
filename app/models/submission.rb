@@ -1,3 +1,4 @@
+require 'fastercsv'
 class Submission < ActiveRecord::Base
 
   acts_as_cache_clearing
@@ -11,6 +12,26 @@ class Submission < ActiveRecord::Base
   after_update :update_agreement_form_received
 #  do we want to check if they've already submitted a presentation to a conference?
 #  validates_uniqueness_of :presentation, :scope => [:conference_id]
+
+  include ActionView::Helpers::SanitizeHelper
+
+  def self.to_csv(collection)
+    field_names = %w(Conference Name Presenter Type Duration Description Bio)
+    header_row = FasterCSV::Row.new(field_names, field_names, true)
+    table = FasterCSV::Table.new([header_row])
+    collection.each do |sub|
+      table << [
+          sub.conference.name,
+          sub.presentation.name,
+          sub.presenter,
+          sub.presentation.type.name,
+          sub.presentation.duration,
+          strip_tags(sub.presentation.description),
+          strip_tags(sub.presentation.presenter.notes)
+        ]
+    end
+    table.to_csv
+  end
   
   def presenter
     self.presentation ? self.presentation.presenter.name : nil    

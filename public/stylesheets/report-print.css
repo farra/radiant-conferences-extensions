@@ -17,3 +17,52 @@ table.report th {
 table.report tr.odd td {
   background-color: #EEEEF8;
 }
+
+div.submission {
+  margin: 5px;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div.submission h1 {
+  font-family: Garamond, Georgia, Times, serif;
+  font-weight: normal;
+  font-size: 24px;
+  margin: 0;
+}
+
+div.submission h1 strong {
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+div.submission h1 em {
+  padding-left: 0.5em;
+  font-style: normal;
+  font-size: 0.75em;
+  color: gray;
+}
+
+div.submission h2 {
+  font-weight: normal;
+  margin: 0 0 0.5em;
+  font-size: 18px;
+  padding-left: 1em;
+}
+
+div.submission h3 {
+  font-size: 16px;
+}
+
+.page {
+  page-break-after: always;
+}
+
+p#links {
+  display: none;
+}
+
+a, a:visited, a:link {
+  text-decoration: none;
+  color: black;
+}

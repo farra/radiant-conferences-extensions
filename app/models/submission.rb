@@ -8,6 +8,7 @@ class Submission < ActiveRecord::Base
   has_many   :panel_members
 
   after_create :send_notification
+  after_update :update_agreement_form_received
 #  do we want to check if they've already submitted a presentation to a conference?
 #  validates_uniqueness_of :presentation, :scope => [:conference_id]
   
@@ -41,4 +42,9 @@ class Submission < ActiveRecord::Base
     end
   end
 
+  def update_agreement_form_received
+    presentation_ids = presentation.presenter.presentation_ids
+    Submission.update_all({:agreement_form_received => agreement_form_received}, 
+                        :conference_id => conference_id, :presentation_id => presentation_ids)
+  end
 end

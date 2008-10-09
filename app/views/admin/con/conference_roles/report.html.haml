@@ -1,0 +1,18 @@
+%p
+  = link_to "&laquo; Back to list", :action => 'index', :con_id => params[:con_id]
+  = link_to "Download CSV", :format => 'csv', :con_id => params[:con_id]
+
+%table.report
+  %thead
+    %tr
+      %th Name
+      %th Uploaded Photo
+      %th Agreement Form Received
+      %th Uploaded Materials
+  %tbody
+    - @conference_roles.each_with_index do |role, index|
+      %tr{:class => index % 2 == 0 ? 'even': 'odd'}[role]
+        %td.name= h role.to_label
+        %td.photo= image_tag 'icons/tick.png' if role.presenter && role.presenter.photo?
+        %td.agreement= image_tag 'icons/tick.png' if role.event.respond_to?(:submission) && role.event.submission.agreement_form_received?
+        %td.materials= image_tag 'icons/tick.png' if role.event.respond_to?(:submission) && role.event.submission.presentation.materials?

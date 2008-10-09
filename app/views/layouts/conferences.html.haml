@@ -46,6 +46,9 @@
                 %p
                   <-
                   = link_to "Return to Conference Dashboard", :controller => 'admin/con/dashboard', :action => 'index', :id => @current_conference.id
+                  - if @controller.controller_name =~ /conference_roles|submissions/
+                    %br/
+                    = link_to 'Print/Download Report', :action => 'report', :con_id => params[:con_id]
             - if @current_conference
               %h1= @current_conference.name
               %h4

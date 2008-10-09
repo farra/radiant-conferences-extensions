@@ -12,6 +12,7 @@ class ConferencesExtension < Radiant::Extension
     map.connect 'admin/con/activities/:action', :controller => 'admin/con/activities'
     map.connect 'admin/con/conferences/:action', :controller => 'admin/con/conferences'
     map.connect 'admin/con/conference_roles/:action', :controller => 'admin/con/conference_roles'
+    map.connect 'admin/con/conference_roles/:action.:format', :controller => 'admin/con/conference_roles'
     map.connect 'admin/con/dashboard/:action/:id', :controller => 'admin/con/dashboard'
     map.connect 'admin/con/locations/:action', :controller => 'admin/con/locations'
     map.connect 'admin/con/organizations/:action', :controller => 'admin/con/organizations'
@@ -27,6 +28,7 @@ class ConferencesExtension < Radiant::Extension
     map.connect 'admin/con/sponsor_types/:action', :controller => 'admin/con/sponsor_types'
     map.connect 'admin/con/sponsor_levels/:action', :controller => 'admin/con/sponsor_levels'
     map.connect 'admin/con/submissions/:action', :controller => 'admin/con/submissions'
+    map.connect 'admin/con/submissions/:action.:format', :controller => 'admin/con/submissions'
     map.connect 'admin/con/tracks/:action', :controller => 'admin/con/tracks'
     map.connect 'admin/con/venues/:action', :controller => 'admin/con/venues'
     map.connect 'admin/con/cfp/:action', :controller => 'admin/con/cfp'    
@@ -81,7 +83,6 @@ class ConferencesExtension < Radiant::Extension
     ScheduleDayPage
     SessionsPage
     SessionPage
-
   end
 
   def deactivate

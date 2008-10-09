@@ -1,0 +1,19 @@
+table.report {
+  margin: 10px;
+  border-collapse: collapse;
+}
+
+table.report th, table.report td {
+  border: 1px solid silver;
+  padding: 3px;
+}
+
+table.report th {
+  background-color: #F8F8FF;
+  text-transform: capitalize;
+  font-weight: normal;
+}
+
+table.report tr.odd td {
+  background-color: #EEEEF8;
+}

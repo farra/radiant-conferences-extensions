@@ -1,0 +1,11 @@
+!!!
+%html{html_attrs}
+  %head
+    %title
+      Report:
+      = report_title
+    = stylesheet_link_tag 'report'
+    = stylesheet_link_tag 'report-print', :media => 'print'
+    = javascript_include_tag 'prototype'
+  %body
+    = yield

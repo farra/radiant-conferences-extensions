@@ -1,12 +1,12 @@
 class ConferenceGenerator
   attr_reader :con
   def initialize(conference)
-    self.con = conference
+    @con = conference
     @confs_root = @current_page = Page.find_by_url('/c/')
   end
 
   def generate
-    page(con.title, :slug => con.short_name) do
+    page(con.name, :slug => con.short_name) do
       page("About") do
         part(:body, about)
         page("Venue") do
@@ -14,9 +14,9 @@ class ConferenceGenerator
         end
       end
       page("Articles", :class_name => "ArchivePage") do
-        part(:body, :content => %Q{<ul><r:children:each><li><r:link/> <span class="article-date"><r:date/></span></li></r:children:each></ul>})
+        part(:body, %Q{<ul><r:children:each><li><r:link/> <span class="article-date"><r:date/></span></li></r:children:each></ul>})
         page("%b %Y Archives", :class_name => "ArchiveMonthIndexPage") do
-          part(:body, :content => %Q{<ul><r:archive:children:each><li><r:link/> <span class="article-date"><r:date/></span></li></r:archive:children:each></ul>})
+          part(:body, %Q{<ul><r:archive:children:each><li><r:link/> <span class="article-date"><r:date/></span></li></r:archive:children:each></ul>})
         end
       end
       page("Export") do
@@ -40,7 +40,7 @@ class ConferenceGenerator
       end
       page("Sponsors", :class_name => "SponsorsPage") do
         part(:body, sponsors)
-        page("Conference Sponsors", :class_name => "SponsorPage") { part(:body, sponsor) }
+        page("Conference Sponsors", :class_name => "SponsorTypePage") { part(:body, sponsor) }
       end
     end
   end
@@ -50,18 +50,21 @@ class ConferenceGenerator
   def page(title, options={})
     defaults = {
       :title => title,
-      :slug => title.underscore.gsub(/[_\s]+/, '-').sub(/-+$/, ''),
+      :slug => title.underscore.gsub(/[_\s\W]+/, '-').sub(/-+$/, '').sub(/^-+/, ''),
       :breadcrumb => title,
       :status_id => 100
     }
     options = defaults.merge(options)
-    page = @current_page.children.create(options)
+    page = @current_page.children.create!(options)
     if block_given?
       old_page = @current_page
       @current_page = page
       yield
       @current_page = old_page
     end
+  rescue Exception => e
+    @current_page.logger.warn("PAGE CREATE FAILED: #{e.message}")
+    raise e
   end
 
   def part(name, content, options={})
@@ -70,7 +73,10 @@ class ConferenceGenerator
       :content => content
     }
     options = defaults.merge(options)
-    @current_page.create_part(options)
+    @current_page.parts.create!(options)
+  rescue Exception => e
+    @current_page.logger.warn("PART CREATE FAILED: #{e.message}")
+    raise e
   end
 
   def layout(name)
@@ -266,6 +272,7 @@ class ConferenceGenerator
   def schedule
     <<-SCHEDULE
     <h1>Schedule at a Glance</h1>
+    <r:conference shortname="#{con.short_name}">
     <table>
       <tr>
         <r:schedule:each_day>
@@ -276,6 +283,7 @@ class ConferenceGenerator
         <td colspan="5">Insert schedule overview grid here</td>
       </tr>
     </table>
+    </r:conference>
     SCHEDULE
   end
 

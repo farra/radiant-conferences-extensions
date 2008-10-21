@@ -31,7 +31,7 @@ class ConferenceGenerator
         page("Speaker", :class_name => "SpeakerPage") { part(:body, speaker) }
       end
       page("Schedule", :class_name => "SchedulePage") do
-        part(:body, '')
+        part(:body, schedule)
         page("Schedule Day", :class_name => "ScheduleDayPage") { part(:body, schedule_day) }
       end
       page("Sessions", :class_name => "SessionsPage") do
@@ -263,6 +263,22 @@ class ConferenceGenerator
     SPEAKER
   end
 
+  def schedule
+    <<-SCHEDULE
+    <h1>Schedule at a Glance</h1>
+    <table>
+      <tr>
+        <r:schedule:each_day>
+          <th><r:schedule_date_link /></th>
+        </r:schedule:each_day>
+      </tr>
+      <tr>
+        <td colspan="5">Insert schedule overview grid here</td>
+      </tr>
+    </table>
+    SCHEDULE
+  end
+
   def schedule_day
     <<-SDAY
     <r:conference shortname="#{con.short_name}">
@@ -341,7 +357,7 @@ class ConferenceGenerator
     </r:conference>
     SESSION
   end
-
+  
   def sponsors
     <<-SPONSORS
     <h1>Sponsors</h1>

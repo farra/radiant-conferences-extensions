@@ -1,0 +1,21 @@
+%p#links
+  = link_to "&laquo; Back to list", :action => 'index', :con_id => params[:con_id]
+  = link_to "Download CSV", :format => 'csv', :con_id => params[:con_id]
+
+- @submissions.each do |submission|
+  %div.page[submission]
+    %h1
+      %strong= submission.presentation.name
+      %em
+        = surround('[',']') do
+          = submission.conference.name
+    %h2== by #{submission.presenter}
+    %p
+      = submission.presentation.type.name
+      &mdash;
+      = submission.presentation.duration
+      minutes
+    %h3 Description
+    = submission.presentation.description
+    %h3 Presenter Bio
+    = submission.presentation.presenter.notes

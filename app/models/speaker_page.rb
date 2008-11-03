@@ -21,8 +21,12 @@ class SpeakerPage < Page
     end
     tag.expand
   end
+  
+  tag "conference:speaker:bio" do | tag |
+    tag.locals.speaker.notes
+  end
 
-  [:name, :url, :bio].each do |column|
+  [:name, :url, :notes].each do |column|
     desc %{  Renders the '#{column}' attribute of the current speaker.}
     tag "conference:speaker:#{column}" do |tag|
       tag.locals.speaker[column] if tag.locals.speaker

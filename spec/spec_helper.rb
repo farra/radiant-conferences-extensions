@@ -35,3 +35,10 @@ Spec::Runner.configure do |config|
   # If you declare global fixtures, be aware that they will be declared
   # for all of your examples, even those that don't use them.
 end
+
+shared_examples_for 'clearing cache after save' do
+  it "should clear the cache after save" do
+    ResponseCache.instance.should_receive(:clear)
+    @model.save
+  end
+end

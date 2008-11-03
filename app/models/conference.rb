@@ -18,6 +18,8 @@ class Conference < ActiveRecord::Base
   validates_presence_of :name, :short_name, :venue
   validates_uniqueness_of :short_name
 
+  after_create :generate_pages
+
   def validate
     if end_date < start_date
       errors.add_to_base "The end_date must be after the start_date"
@@ -95,4 +97,7 @@ class Conference < ActiveRecord::Base
     return Activity.find(:all,:order => 'activities.start_time', :conditions => conditions)
   end
 
+  def generate_pages
+    ConferenceGenerator.new(self).generate
+  end
 end

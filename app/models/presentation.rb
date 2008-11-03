@@ -11,5 +11,7 @@ class Presentation < ActiveRecord::Base
   belongs_to :type, :class_name => "PresentationType", :foreign_key => "type_id"
 
   has_many :submissions
+  
+  validates_presence_of :presenter
 
 end

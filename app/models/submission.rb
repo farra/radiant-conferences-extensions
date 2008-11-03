@@ -6,9 +6,9 @@ class Submission < ActiveRecord::Base
   belongs_to :conference
   has_many   :scheduled_sessions
   has_many   :panel_members
-
-#  do we want to check if they've already submitted a presentation to a conference?
-#  validates_uniqueness_of :presentation, :scope => [:conference_id]
+  
+  validates_presence_of :presentation
+  validates_presence_of :conference 
   
   def presenter
     self.presentation ? self.presentation.presenter.name : nil    
@@ -19,7 +19,7 @@ class Submission < ActiveRecord::Base
   end
 
   def to_label
-    "#{self.presentation.name} to #{self.conference.name}"
+    "#{self.name} to #{self.conference ? self.conference.name : 'UNSPECIFIED CONFERENCE'}"
   end
   
   def new_presentation_attributes=(presentation_attributes)

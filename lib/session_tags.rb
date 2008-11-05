@@ -1,6 +1,7 @@
 module SessionTags
 
   include Radiant::Taggable
+  include FileColumnHelper
 
 
   tag "conference:sessions" do |tag|
@@ -42,6 +43,8 @@ module SessionTags
     tag.locals.session.tag_list.join(delim)
   end
 
+
+    
   tag "conference:sessions:link" do |tag|
     prefix = tag.attr['prefix'] ? tag.attr['prefix'] : "#{tag.locals.conference.short_name}/sessions"
     "<a href='/#{prefix}/#{tag.locals.session.id}'>#{tag.locals.session.name}</a>"
@@ -56,8 +59,8 @@ module SessionTags
       output = "<a href='/#{prefix}/#{tag.locals.session.presenter.id}'>"
       output << "#{tag.locals.session.presenter.name}</a>"
     end
-  end
-
+  end  
+  
 
  tag "conference:session" do |tag|
     type = tag.attr["type"] ? tag.attr["type"] : "scheduled_session"
@@ -99,6 +102,15 @@ module SessionTags
     tag.locals.scheduled_session.tag_list.join(delim)
   end
 
+  tag "conference:session:materials_link" do |tag|
+    text = tag.attr['text'] ? tag.attr['text'] : "Download Materials"
+    output = 'No Materials Available'
+    if tag.locals.scheduled_session.submission.presentation.materials
+     output = "<a href='#{url_for_file_column tag.locals.scheduled_session.submission.presentation, 'materials', :absolute => true}'>#{text}</a>"      
+    end
+    output
+  end  
+  
   tag "conference:session:link" do |tag|
     prefix = tag.attr['prefix'] ? tag.attr['prefix'] : "#{tag.locals.conference.short_name}/sessions"
     "<a href='/#{prefix}/#{tag.locals.scheduled_session.id}'>#{tag.locals.scheduled_session.submission.presentation.name}</a>"

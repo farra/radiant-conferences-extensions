@@ -35,7 +35,11 @@
   <%  unless presentation.new_record?  %>
   <tr>
    <td><label>Slides</label></td>
-   <td><%= file_column_field "submission[#{new_or_existing}_presentation_attributes][#{presentation.new_record? ? '' : presentation.id}]", "materials" %>  <em>(Optional)</em></td>
+   <td><%= file_column_field "submission[#{new_or_existing}_presentation_attributes][#{presentation.new_record? ? '' : presentation.id}]", "materials" %>
+      <% if presentation.materials %>
+          Current: <%= link_to presentation.materials.split('/').last, url_for_file_column(presentation, "materials", :absolute => "true") %>&nbsp;&nbsp;
+      <% end %>
+      <em>(Optional)</em></td>
   </tr> 
   <% end %> 
  </table>

@@ -16,7 +16,7 @@ class Submission < ActiveRecord::Base
 #  do we want to check if they've already submitted a presentation to a conference?
 #  validates_uniqueness_of :presentation, :scope => [:conference_id]
 
-  include ActionView::Helpers::SanitizeHelper
+  extend ActionView::Helpers::SanitizeHelper
 
   def self.to_csv(collection)
     field_names = %w(Conference Name Presenter Type Duration Description Bio)

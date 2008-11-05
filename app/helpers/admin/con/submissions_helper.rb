@@ -4,6 +4,10 @@ module Admin::Con::SubmissionsHelper
   end
 
   include Admin::Con::DescriptionColumnHelper
+  
+  def presenter_column(record)
+    record.presenter.name
+  end
 
    def scheduled_sessions_column(record)
      sessions = []

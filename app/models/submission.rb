@@ -36,9 +36,8 @@ class Submission < ActiveRecord::Base
     table.to_csv
   end
 
-  
   def presenter
-    self.presentation ? self.presentation.presenter.name : nil    
+    self.presentation ? self.presentation.presenter : nil    
   end
   
   def name
